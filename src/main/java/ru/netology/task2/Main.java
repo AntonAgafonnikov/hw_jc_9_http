@@ -19,7 +19,7 @@ import java.net.URL;
 public class Main {
     public static final String DAILY_CONTENT_NASA_URL =
             "https://api.nasa.gov/planetary/apod?api_key=CYfR9u0vF50S0fmAajft0rKcW1PvJ0HfcCt36eii";
-    public static final String RESOURCES_DIRECTORY = "src/main/resources/";
+    public static final String SAVE_DIRECTORY = "src/main/";
     public static ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws IOException {
@@ -53,19 +53,19 @@ public class Main {
                 // отправка запроса,
                 try (CloseableHttpResponse responseMedia = httpClient.execute(request);
                      // получение и запись массива байтов в файлов
-                     FileOutputStream fos = new FileOutputStream(RESOURCES_DIRECTORY + fileName)) {
+                     FileOutputStream fos = new FileOutputStream(SAVE_DIRECTORY + fileName)) {
                     fos.write(responseMedia.getEntity().getContent().readAllBytes());
                 }
-                if(new File(RESOURCES_DIRECTORY + fileName).exists()) {
-                    System.out.println(fileName + " - успешно сохранён в директорию: " + RESOURCES_DIRECTORY);
+                if(new File(SAVE_DIRECTORY + fileName).exists()) {
+                    System.out.println(fileName + " - успешно сохранён в директорию: " + SAVE_DIRECTORY);
                 }
 
                 // ВАРИАНТ 2: сохраним файл из запроса с помощью библиотеки Apache Commons IO
                 FileUtils.copyURLToFile(new URL(dailyMediaURL),
-                        new File(RESOURCES_DIRECTORY + "APACHE_" + fileName));
+                        new File(SAVE_DIRECTORY + "APACHE_" + fileName));
 
-                if(new File(RESOURCES_DIRECTORY + "APACHE_" + fileName).exists()) {
-                    System.out.println("APACHE_" + fileName + " - успешно сохранён в директорию: " + RESOURCES_DIRECTORY);
+                if(new File(SAVE_DIRECTORY + "APACHE_" + fileName).exists()) {
+                    System.out.println("APACHE_" + fileName + " - успешно сохранён в директорию: " + SAVE_DIRECTORY);
                 }
             }
         }
